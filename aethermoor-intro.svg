@@ -1,0 +1,136 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Définitions -->
+  <defs>
+    <!-- Gradient de fond -->
+    <radialGradient id="bgGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#1a1525;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#0f0c14;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a0a0f;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Gradient doré -->
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0d090;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#d4a853;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b6914;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Gradient violet -->
+    <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9d7ccc;stop-opacity:0.6" />
+      <stop offset="50%" style="stop-color:#6b4c9a;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#4a3570;stop-opacity:0.6" />
+    </linearGradient>
+    
+    <!-- Filtre de lueur -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Filtre de lueur forte -->
+    <filter id="strongGlow">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Fond circulaire -->
+  <circle cx="200" cy="200" r="200" fill="url(#bgGradient)"/>
+  
+  <!-- Cercle extérieur décoratif -->
+  <circle cx="200" cy="200" r="185" fill="none" stroke="url(#goldGradient)" stroke-width="2" opacity="0.6" filter="url(#glow)"/>
+  <circle cx="200" cy="200" r="175" fill="none" stroke="url(#goldGradient)" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Motifs géométriques de fond -->
+  <g opacity="0.15">
+    <!-- Étoile à 8 branches -->
+    <path d="M 200 50 L 215 150 L 315 135 L 230 180 L 280 265 L 200 220 L 120 265 L 170 180 L 85 135 L 185 150 Z" 
+          fill="url(#purpleGradient)" stroke="#6b4c9a" stroke-width="1"/>
+  </g>
+  
+  <!-- Runes circulaires -->
+  <g opacity="0.5" filter="url(#glow)">
+    <!-- Runes autour du cercle -->
+    <text x="200" y="90" font-family="serif" font-size="24" fill="#d4a853" text-anchor="middle" font-weight="bold">⚔</text>
+    <text x="310" y="200" font-family="serif" font-size="24" fill="#d4a853" text-anchor="middle" font-weight="bold">✦</text>
+    <text x="200" y="320" font-family="serif" font-size="24" fill="#d4a853" text-anchor="middle" font-weight="bold">🗡</text>
+    <text x="90" y="200" font-family="serif" font-size="24" fill="#d4a853" text-anchor="middle" font-weight="bold">✦</text>
+    
+    <!-- Diagonales -->
+    <text x="270" y="130" font-family="serif" font-size="20" fill="#9d7ccc" text-anchor="middle">✧</text>
+    <text x="270" y="270" font-family="serif" font-size="20" fill="#9d7ccc" text-anchor="middle">✧</text>
+    <text x="130" y="130" font-family="serif" font-size="20" fill="#9d7ccc" text-anchor="middle">✧</text>
+    <text x="130" y="270" font-family="serif" font-size="20" fill="#9d7ccc" text-anchor="middle">✧</text>
+  </g>
+  
+  <!-- Symbole central: Pentacle magique -->
+  <g filter="url(#strongGlow)">
+    <!-- Pentagone central -->
+    <path d="M 200 140 L 243 172 L 229 222 L 171 222 L 157 172 Z" 
+          fill="none" stroke="url(#goldGradient)" stroke-width="3"/>
+    
+    <!-- Étoile à 5 branches -->
+    <path d="M 200 140 L 207 165 L 234 165 L 213 180 L 221 205 L 200 190 L 179 205 L 187 180 L 166 165 L 193 165 Z" 
+          fill="url(#purpleGradient)" stroke="#d4a853" stroke-width="2" opacity="0.8"/>
+    
+    <!-- Cercle central -->
+    <circle cx="200" cy="175" r="40" fill="none" stroke="url(#goldGradient)" stroke-width="2.5"/>
+    <circle cx="200" cy="175" r="32" fill="rgba(107, 76, 154, 0.3)" stroke="url(#purpleGradient)" stroke-width="1.5"/>
+    
+    <!-- Point central lumineux -->
+    <circle cx="200" cy="175" r="8" fill="#f0d090" opacity="0.9"/>
+    <circle cx="200" cy="175" r="4" fill="#ffffff" opacity="1"/>
+  </g>
+  
+  <!-- Titre -->
+  <g filter="url(#glow)">
+    <text x="200" y="260" font-family="'Cinzel', serif" font-size="28" font-weight="700" 
+          fill="url(#goldGradient)" text-anchor="middle" letter-spacing="2">
+      AETHERMOOR
+    </text>
+    <text x="200" y="285" font-family="'Cinzel', serif" font-size="14" font-weight="400" 
+          fill="#e8e4dc" text-anchor="middle" letter-spacing="3" opacity="0.8">
+      CHRONIQUES
+    </text>
+  </g>
+  
+  <!-- Sous-titre -->
+  <text x="200" y="310" font-family="'Crimson Text', serif" font-size="12" font-style="italic"
+        fill="#8a8279" text-anchor="middle">
+    Entrez dans la légende
+  </text>
+  
+  <!-- Ornements décoratifs en bas -->
+  <g opacity="0.6">
+    <path d="M 160 330 L 200 340 L 240 330" fill="none" stroke="#d4a853" stroke-width="1.5"/>
+    <circle cx="160" cy="330" r="2" fill="#d4a853"/>
+    <circle cx="200" cy="340" r="3" fill="#d4a853"/>
+    <circle cx="240" cy="330" r="2" fill="#d4a853"/>
+  </g>
+  
+  <!-- Particules magiques -->
+  <g opacity="0.6">
+    <circle cx="150" cy="120" r="2" fill="#f0d090">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="250" cy="140" r="1.5" fill="#9d7ccc">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="170" cy="250" r="2" fill="#f0d090">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="240" cy="240" r="1.5" fill="#9d7ccc">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Bordure extérieure finale -->
+  <circle cx="200" cy="200" r="198" fill="none" stroke="#d4a853" stroke-width="1" opacity="0.3"/>
+</svg>

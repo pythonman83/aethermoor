@@ -1,0 +1,3277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <!-- Meta Description (OBLIGATOIRE pour SEO) -->
+    <meta name="description" content="Plongez dans l'univers dark fantasy de Chroniques d'Aethermoor. Une interface RPG immersive avec système de dialogue, inventaire, compétences et quêtes épiques.">
+    <!-- Meta Keywords -->
+    <meta name="keywords" content="RPG, jeu de rôle, fantasy, Aethermoor, aventure, quêtes, compétences, inventaire">
+    <!-- Meta Author -->
+    <meta name="author" content="Jean-Claude Lugo, formateur expert chez MODE 83, Draguignan, Var">
+    <!-- Meta Robots -->
+    <meta name="robots" content="index, follow">
+
+<!-- Canonical URL (à adapter selon votre domaine) -->
+<link rel="canonical" href="https://github.com/pythonman83/aethermoor/">
+
+<!-- Theme Color (couleur de la barre d'adresse mobile) -->
+<meta name="theme-color" content="#0a0a0f">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://github.com/pythonman83/aethermoor/">
+<meta property="og:title" content="Chroniques d'Aethermoor • RPG UI">
+<meta property="og:description" content="Plongez dans l'univers dark fantasy de Chroniques d'Aethermoor. Une interface RPG immersive avec système de dialogue, inventaire, compétences et quêtes épiques.">
+<meta property="og:image" content="https://github.com/pythonman83/aethermoor/og-image.jpg">
+<meta property="og:locale" content="fr_FR">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://github.com/pythonman83/aethermoor/">
+<meta name="twitter:title" content="Chroniques d'Aethermoor • RPG UI">
+<meta name="twitter:description" content="Plongez dans l'univers dark fantasy de Chroniques d'Aethermoor. Une interface RPG immersive avec système de dialogue, inventaire, compétences et quêtes épiques.">
+<meta name="twitter:image" content="https://github.com/pythonman83/aethermoor/twitter-image.jpg">
+
+<!-- Apple Touch Icon (optionnel mais recommandé) -->
+
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="aethermoor-favicon.png" type="image/x-icon">
+
+<!-- Manifest (optionnel pour PWA) -->
+
+    <title>Chroniques d'Aethermoor • RPG UI</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=MedievalSharp&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <style>
+        /* ========================================
+           VARIABLES CSS - THÈME DARK FANTASY
+           ======================================== */
+        :root {
+            /* Couleurs principales */
+            --color-bg-dark: #0a0a0f;
+            --color-bg-panel: rgba(15, 12, 20, 0.92);
+            --color-bg-panel-light: rgba(25, 20, 35, 0.85);
+            --color-bg-hover: rgba(40, 30, 55, 0.9);
+            
+            /* Accents */
+            --color-gold: #d4a853;
+            --color-gold-light: #f0d090;
+            --color-gold-dark: #8b6914;
+            --color-purple: #6b4c9a;
+            --color-purple-light: #9d7ccc;
+            --color-red: #8b2035;
+            --color-red-light: #c93c55;
+            --color-blue: #2a5c8a;
+            --color-blue-light: #4a9cd4;
+            --color-green: #2d6b4f;
+            --color-green-light: #4caf7c;
+            
+            /* Raretés */
+            --rarity-common: #9e9e9e;
+            --rarity-uncommon: #4caf50;
+            --rarity-rare: #2196f3;
+            --rarity-epic: #9c27b0;
+            --rarity-legendary: #ff9800;
+            --rarity-mythic: #e91e63;
+            
+            /* Texte */
+            --color-text: #e8e4dc;
+            --color-text-muted: #8a8279;
+            --color-text-gold: #d4a853;
+            
+            /* Bordures */
+            --border-ornate: linear-gradient(135deg, var(--color-gold-dark) 0%, var(--color-gold) 50%, var(--color-gold-dark) 100%);
+            --border-simple: rgba(212, 168, 83, 0.3);
+            
+            /* Ombres */
+            --shadow-glow-gold: 0 0 20px rgba(212, 168, 83, 0.3);
+            --shadow-glow-red: 0 0 15px rgba(201, 60, 85, 0.4);
+            --shadow-glow-blue: 0 0 15px rgba(74, 156, 212, 0.4);
+            --shadow-panel: 0 10px 40px rgba(0, 0, 0, 0.5);
+            
+            /* Polices */
+            --font-display: 'Cinzel', serif;
+            --font-medieval: 'MedievalSharp', cursive;
+            --font-body: 'Crimson Text', Georgia, serif;
+            
+            /* Transitions */
+            --transition-fast: 0.15s ease;
+            --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* ========================================
+           RESET & BASE
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg-dark);
+            color: var(--color-text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Curseur personnalisé */
+        .game-cursor {
+            cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23d4a853" d="M2 2l8 20 3-8 8-3z"/></svg>') 0 0, auto;
+        }
+
+        /* ========================================
+           FOND DU JEU (SCÈNE)
+           ======================================== */
+        .game-scene {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(45, 107, 79, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(107, 76, 154, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(15, 12, 20, 0.8) 0%, transparent 100%),
+                url('data:image/svg+xml,<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.03"/></svg>'),
+                linear-gradient(180deg, #0a0a0f 0%, #151520 50%, #0a0a0f 100%);
+            z-index: 0;
+        }
+
+        .game-scene::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="30" r="0.3" fill="%23ffffff" opacity="0.4"/><circle cx="80" cy="20" r="0.2" fill="%23ffffff" opacity="0.3"/><circle cx="50" cy="70" r="0.25" fill="%23ffffff" opacity="0.5"/><circle cx="10" cy="80" r="0.2" fill="%23ffffff" opacity="0.3"/><circle cx="90" cy="60" r="0.3" fill="%23ffffff" opacity="0.4"/><circle cx="30" cy="10" r="0.2" fill="%23ffffff" opacity="0.3"/><circle cx="70" cy="90" r="0.25" fill="%23ffffff" opacity="0.4"/></svg>');
+            background-size: 200px 200px;
+            animation: twinkle 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Particules flottantes */
+        .particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--color-gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatParticle 15s infinite;
+            box-shadow: 0 0 6px var(--color-gold);
+        }
+
+        @keyframes floatParticle {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-20vh) scale(1);
+            }
+        }
+
+        /* ========================================
+           BOUTON RPG INFO
+           ======================================== */
+        .rpg-info-btn {
+            position: fixed;
+            top: 13px;
+            right: 260px;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            background: var(--color-bg-panel);
+            border: 2px solid var(--color-gold-dark);
+            border-radius: 50%;
+            color: var(--color-gold);
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+            box-shadow: var(--shadow-panel);
+            backdrop-filter: blur(10px);
+        }
+
+        .rpg-info-btn:hover {
+            background: var(--color-bg-hover);
+            border-color: var(--color-gold);
+            transform: scale(1.1);
+            box-shadow: var(--shadow-glow-gold), var(--shadow-panel);
+            color: var(--color-gold-light);
+        }
+
+        .rpg-info-btn:active {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .rpg-info-btn {
+                top: 10px;
+                right: 10px;
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+        }
+
+        /* ========================================
+           MODAL RPG INFO
+           ======================================== */
+        .rpg-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity var(--transition-smooth);
+        }
+
+        .rpg-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .rpg-modal {
+            background: var(--color-bg-panel);
+            border: 3px solid var(--color-gold);
+            border-radius: 16px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-panel), var(--shadow-glow-gold);
+            animation: modalSlideIn var(--transition-bounce);
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .rpg-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            border-bottom: 2px solid var(--border-simple);
+        }
+
+        .rpg-modal-title {
+            font-family: var(--font-medieval);
+            font-size: 2.5rem;
+            color: var(--color-gold);
+            text-shadow: 0 0 20px rgba(212, 168, 83, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .rpg-modal-close {
+            width: 40px;
+            height: 40px;
+            background: var(--color-bg-panel-light);
+            border: 2px solid var(--border-simple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+            color: var(--color-text);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .rpg-modal-close:hover {
+            background: var(--color-red);
+            border-color: var(--color-red-light);
+            color: white;
+            transform: rotate(90deg);
+            box-shadow: var(--shadow-glow-red);
+        }
+
+        .rpg-modal-content {
+            padding: 2rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .rpg-modal-content h2 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            color: var(--color-gold);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rpg-modal-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .rpg-modal-content p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--color-text);
+            margin-bottom: 1rem;
+        }
+
+        .rpg-modal-content ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .rpg-modal-content li {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--color-text);
+            margin-bottom: 0.75rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .rpg-modal-content li::before {
+            content: '⚔️';
+            position: absolute;
+            left: 0;
+            color: var(--color-gold);
+        }
+
+        .rpg-highlight {
+            color: var(--color-gold);
+            font-weight: 600;
+        }
+
+        .rpg-example-box {
+            background: var(--color-bg-panel-light);
+            border: 2px solid var(--border-simple);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .rpg-example-box h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: var(--color-gold-light);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Scrollbar personnalisée pour le modal */
+        .rpg-modal-content::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .rpg-modal-content::-webkit-scrollbar-track {
+            background: var(--color-bg-dark);
+            border-radius: 5px;
+        }
+
+        .rpg-modal-content::-webkit-scrollbar-thumb {
+            background: var(--color-gold-dark);
+            border-radius: 5px;
+        }
+
+        .rpg-modal-content::-webkit-scrollbar-thumb:hover {
+            background: var(--color-gold);
+        }
+
+        @media (max-width: 768px) {
+            .rpg-modal {
+                max-height: 95vh;
+            }
+
+            .rpg-modal-header {
+                padding: 1.5rem;
+            }
+
+            .rpg-modal-title {
+                font-size: 1.75rem;
+            }
+
+            .rpg-modal-content {
+                padding: 1.5rem;
+            }
+
+            .rpg-modal-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .rpg-modal-content p,
+            .rpg-modal-content li {
+                font-size: 1rem;
+            }
+        }
+
+        
+
+        /* ========================================
+           CONTENEUR PRINCIPAL
+           ======================================== */
+        .game-container {
+            position: relative;
+            min-height: 100vh;
+            z-index: 10;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ========================================
+           HUD - BARRE SUPÉRIEURE
+           ======================================== */
+        .hud-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Infos personnage */
+        .character-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--color-bg-panel);
+            border: 1px solid var(--border-simple);
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .character-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border-ornate);
+        }
+
+        .character-portrait {
+            width: 60px;
+            height: 60px;
+            border-radius: 4px;
+            border: 2px solid var(--color-gold-dark);
+            background: linear-gradient(135deg, #2a2035 0%, #1a1525 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .character-portrait::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 40%, rgba(212, 168, 83, 0.1) 100%);
+        }
+
+        .character-level {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            background: var(--color-gold);
+            color: var(--color-bg-dark);
+            font-family: var(--font-display);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.15rem 0.4rem;
+            border-radius: 2px;
+        }
+
+        .character-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .character-name {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-gold-light);
+            letter-spacing: 0.05em;
+        }
+
+        .character-class {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Barres de stats */
+        .stat-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            min-width: 180px;
+        }
+
+        .stat-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .stat-bar-container {
+            flex: 1;
+            height: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-bar-fill {
+            height: 100%;
+            border-radius: 1px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .stat-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+        }
+
+        .stat-bar-health .stat-bar-fill {
+            background: linear-gradient(90deg, var(--color-red) 0%, var(--color-red-light) 100%);
+            box-shadow: var(--shadow-glow-red);
+        }
+
+        .stat-bar-mana .stat-bar-fill {
+            background: linear-gradient(90deg, var(--color-blue) 0%, var(--color-blue-light) 100%);
+            box-shadow: var(--shadow-glow-blue);
+        }
+
+        .stat-bar-stamina .stat-bar-fill {
+            background: linear-gradient(90deg, var(--color-green) 0%, var(--color-green-light) 100%);
+        }
+
+        .stat-bar-xp .stat-bar-fill {
+            background: linear-gradient(90deg, var(--color-purple) 0%, var(--color-purple-light) 100%);
+        }
+
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 0.65rem;
+            min-width: 55px;
+            text-align: right;
+            color: var(--color-text-muted);
+        }
+
+        /* Zone centrale HUD */
+        .hud-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quest-tracker {
+            background: var(--color-bg-panel);
+            border: 1px solid var(--border-simple);
+            border-radius: 4px;
+            padding: 0.75rem 1.25rem;
+            text-align: center;
+            max-width: 300px;
+        }
+
+        .quest-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-gold);
+            margin-bottom: 0.25rem;
+        }
+
+        .quest-title {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            color: var(--color-text);
+            margin-bottom: 0.25rem;
+        }
+
+        .quest-objective {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+
+        .quest-objective span {
+            color: var(--color-gold-light);
+        }
+
+        /* Zone droite - Ressources & Mini-map */
+        .hud-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.75rem;
+        }
+
+        .resources-panel {
+            display: flex;
+            gap: 1rem;
+            background: var(--color-bg-panel);
+            border: 1px solid var(--border-simple);
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .resource-icon {
+            font-size: 1rem;
+        }
+
+        .resource-value {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            color: var(--color-gold-light);
+        }
+
+        /* Mini-map */
+        .minimap-container {
+            width: 140px;
+            height: 140px;
+            background: var(--color-bg-panel);
+            border: 2px solid var(--color-gold-dark);
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .minimap-container::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(212, 168, 83, 0.3);
+            border-radius: 50%;
+        }
+
+        .minimap-inner {
+            position: absolute;
+            inset: 8px;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(45, 107, 79, 0.4) 0%, transparent 30%),
+                radial-gradient(circle at 70% 60%, rgba(42, 92, 138, 0.3) 0%, transparent 25%),
+                radial-gradient(circle at 50% 80%, rgba(139, 32, 53, 0.3) 0%, transparent 20%),
+                linear-gradient(135deg, #1a1a25 0%, #0f0f18 100%);
+            overflow: hidden;
+        }
+
+        .minimap-player {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: var(--color-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--color-gold);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .minimap-player::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 6px solid var(--color-gold);
+        }
+
+        .minimap-poi {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .minimap-poi.quest {
+            background: var(--color-gold);
+            top: 25%;
+            left: 60%;
+        }
+
+        .minimap-poi.enemy {
+            background: var(--color-red-light);
+            top: 70%;
+            left: 30%;
+        }
+
+        .minimap-poi.npc {
+            background: var(--color-green-light);
+            top: 40%;
+            left: 75%;
+        }
+
+        .minimap-compass {
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-display);
+            font-size: 0.6rem;
+            color: var(--color-gold);
+            text-shadow: 0 0 4px rgba(0,0,0,0.8);
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 10px var(--color-gold); }
+            50% { box-shadow: 0 0 20px var(--color-gold), 0 0 30px rgba(212, 168, 83, 0.3); }
+        }
+
+        /* ========================================
+           BARRE DE COMPÉTENCES (BAS)
+           ======================================== */
+        .hud-bottom {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+        }
+
+        .skill-bar {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--color-bg-panel);
+            border: 1px solid var(--border-simple);
+            border-radius: 8px;
+            padding: 0.75rem;
+            position: relative;
+        }
+
+        .skill-bar::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: var(--border-ornate);
+        }
+
+        .skill-slot {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(30, 25, 40, 0.9) 0%, rgba(20, 15, 30, 0.9) 100%);
+            border: 2px solid rgba(212, 168, 83, 0.4);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            position: relative;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            overflow: hidden;
+        }
+
+        .skill-slot::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 40%, rgba(212, 168, 83, 0.1) 100%);
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+
+        .skill-slot:hover::before {
+            opacity: 1;
+        }
+
+        .skill-slot:hover {
+            border-color: var(--color-gold);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow-gold);
+        }
+
+        .skill-slot.on-cooldown {
+            filter: grayscale(0.7);
+        }
+
+        .skill-slot.on-cooldown::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            animation: cooldownSweep 3s linear forwards;
+        }
+
+        @keyframes cooldownSweep {
+            from {
+                clip-path: polygon(50% 50%, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
+            }
+            to {
+                clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%);
+            }
+        }
+
+        .skill-keybind {
+            position: absolute;
+            top: 2px;
+            left: 4px;
+            font-family: var(--font-display);
+            font-size: 0.6rem;
+            color: var(--color-text-muted);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .skill-slot.ultimate {
+            width: 64px;
+            height: 64px;
+            border-color: var(--color-purple);
+            font-size: 1.8rem;
+        }
+
+        .skill-slot.ultimate:hover {
+            border-color: var(--color-purple-light);
+            box-shadow: 0 0 20px rgba(157, 124, 204, 0.4);
+        }
+
+        /* ========================================
+           MENU PRINCIPAL OVERLAY
+           ======================================== */
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 10, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-smooth);
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .main-menu {
+            text-align: center;
+            transform: scale(0.9) translateY(20px);
+            transition: transform var(--transition-smooth);
+        }
+
+        .menu-overlay.active .main-menu {
+            transform: scale(1) translateY(0);
+        }
+
+        .menu-logo {
+            font-family: var(--font-medieval);
+            font-size: clamp(2rem, 8vw, 4rem);
+            color: var(--color-gold);
+            text-shadow: 
+                0 0 20px rgba(212, 168, 83, 0.5),
+                0 4px 8px rgba(0, 0, 0, 0.5);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .menu-subtitle {
+            font-family: var(--font-display);
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
+            color: var(--color-text-muted);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+        }
+
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .menu-btn {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            color: var(--color-text);
+            background: transparent;
+            border: 1px solid transparent;
+            padding: 0.75rem 3rem;
+            cursor: pointer;
+            position: relative;
+            transition: all var(--transition-smooth);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            min-width: 250px;
+        }
+
+        .menu-btn::before,
+        .menu-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            height: 1px;
+            background: var(--color-gold-dark);
+            transition: all var(--transition-smooth);
+            opacity: 0;
+        }
+
+        .menu-btn::before {
+            left: 0;
+            transform: translateY(-50%) translateX(-10px);
+        }
+
+        .menu-btn::after {
+            right: 0;
+            transform: translateY(-50%) translateX(10px);
+        }
+
+        .menu-btn:hover {
+            color: var(--color-gold);
+            border-color: var(--border-simple);
+            background: var(--color-bg-panel);
+        }
+
+        .menu-btn:hover::before,
+        .menu-btn:hover::after {
+            opacity: 1;
+        }
+
+        .menu-btn:hover::before {
+            transform: translateY(-50%) translateX(10px);
+        }
+
+        .menu-btn:hover::after {
+            transform: translateY(-50%) translateX(-10px);
+        }
+
+        .menu-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 1px solid var(--border-simple);
+            color: var(--color-text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-close:hover {
+            color: var(--color-gold);
+            border-color: var(--color-gold);
+        }
+
+        /* ========================================
+           PANNEAU D'INVENTAIRE
+           ======================================== */
+        .inventory-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 10, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-smooth);
+        }
+
+        .inventory-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .inventory-panel {
+            display: grid;
+            grid-template-columns: 280px 1fr 250px;
+            gap: 1.5rem;
+            max-width: 1100px;
+            width: 100%;
+            max-height: 90vh;
+            transform: scale(0.95) translateY(20px);
+            transition: transform var(--transition-smooth);
+        }
+
+        .inventory-overlay.active .inventory-panel {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Personnage / Équipement */
+        .equipment-section {
+            background: var(--color-bg-panel);
+            border: 1px solid var(--border-simple);
+            border-radius: 8px;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .equipment-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--border-ornate);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-gold);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-simple);
+        }
+
+        .character-model {
+            width: 120px;
+            height: 200px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(180deg, rgba(107, 76, 154, 0.1) 0%, transparent 100%);
+            border-radius: 60px 60px 20px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+        }
+
+        .character-model::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 20px;
+            background: radial-gradient(ellipse, rgba(107, 76, 154, 0.3), transparent);
+            border-radius: 50%;
+        }
+
+        .equipment-slots {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .equip-slot {
+            aspect-ratio: 1;
+            background: rgba(20, 15, 30, 0.8);
+            border: 1px solid rgba(212, 168, 83, 0.2);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .equip-slot:hover {
+            border-color: var(--color-gold);
+            background: var(--color-bg-hover);
+        }
+
+        .equip-slot.equipped {
+            border-color: var(--rarity-rare);
+            box-shadow: inset 0 0 15px rgba(33, 150, 243, 0.2);
+        }
+
+        .equip-slot-icon {
+            font-size: 1.5rem;
+            opacity: 0.4;
+        }
+
+        .equip-slot.equipped .equip-slot-icon {
+            opacity: 1;
+        }
+
+        .equip-slot-label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text-muted);
+        }
+
+        /* Grille d'inventaire */
+        .inventory-section {
+            background: var(--color-bg-panel);
+            border: 1px solid var(--border-simple);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .inventory-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--border-ornate);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .inventory-tabs {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-simple);
+            padding-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .inv-tab {
+            padding: 0.5rem 1rem;
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border-radius: 2px;
+        }
+
+        .inv-tab:hover {
+            color: var(--color-text);
+            background: var(--color-bg-hover);
+        }
+
+        .inv-tab.active {
+            color: var(--color-gold);
+            border-color: var(--color-gold-dark);
+            background: rgba(212, 168, 83, 0.1);
+        }
+
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+            gap: 0.4rem;
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .inventory-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .inventory-grid::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+        }
+
+        .inventory-grid::-webkit-scrollbar-thumb {
+            background: var(--color-gold-dark);
+            border-radius: 3px;
+        }
+
+        .inv-slot {
+            aspect-ratio: 1;
+            background: rgba(20, 15, 30, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .inv-slot:hover {
+            border-color: var(--color-gold);
+            background: var(--color-bg-hover);
+            transform: scale(1.05);
+        }
+
+        .inv-slot.has-item {
+            background: rgba(30, 25, 45, 0.8);
+        }
+
+        .inv-slot.rarity-common { border-color: var(--rarity-common); }
+        .inv-slot.rarity-uncommon { border-color: var(--rarity-uncommon); }
+        .inv-slot.rarity-rare { border-color: var(--rarity-rare); box-shadow: inset 0 0 10px rgba(33, 150, 243, 0.2); }
+        .inv-slot.rarity-epic { border-color: var(--rarity-epic); box-shadow: inset 0 0 10px rgba(156, 39, 176, 0.2); }
+        .inv-slot.rarity-legendary { border-color: var(--rarity-legendary); box-shadow: inset 0 0 10px rgba(255, 152, 0, 0.2); }
+        .inv-slot.rarity-mythic { border-color: var(--rarity-mythic); box-shadow: inset 0 0 15px rgba(233, 30, 99, 0.3); animation: mythicGlow 2s ease-in-out infinite; }
+
+        @keyframes mythicGlow {
+            0%, 100% { box-shadow: inset 0 0 15px rgba(233, 30, 99, 0.3); }
+            50% { box-shadow: inset 0 0 25px rgba(233, 30, 99, 0.5), 0 0 10px rgba(233, 30, 99, 0.3); }
+        }
+
+        .inv-slot-quantity {
+            position: absolute;
+            bottom: 2px;
+            right: 4px;
+            font-family: var(--font-display);
+            font-size: 0.6rem;
+            color: var(--color-text);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* Panneau stats */
+        .stats-section {
+            background: var(--color-bg-panel);
+            border: 1px solid var(--border-simple);
+            border-radius: 8px;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--border-ornate);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .stats-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-name {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-name i {
+            color: var(--color-gold-dark);
+            font-size: 0.9rem;
+        }
+
+        .stat-val {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            color: var(--color-gold-light);
+        }
+
+        .stat-val.positive {
+            color: var(--color-green-light);
+        }
+
+        .stat-val.negative {
+            color: var(--color-red-light);
+        }
+
+        .inventory-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            background: var(--color-bg-panel);
+            border: 1px solid var(--border-simple);
+            color: var(--color-text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            z-index: 10;
+        }
+
+        .inventory-close:hover {
+            color: var(--color-gold);
+            border-color: var(--color-gold);
+        }
+
+        /* ========================================
+           SYSTÈME DE DIALOGUE
+           ======================================== */
+        .dialogue-container {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(90%, 800px);
+            z-index: 500;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-smooth);
+        }
+
+        .dialogue-container.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .dialogue-box {
+            background: var(--color-bg-panel);
+            border: 2px solid var(--color-gold-dark);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform var(--transition-smooth);
+        }
+
+        .dialogue-container.active .dialogue-box {
+            transform: translateY(0);
+        }
+
+        .dialogue-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--border-ornate);
+        }
+
+        .dialogue-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-simple);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .dialogue-portrait {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid var(--color-gold);
+            background: linear-gradient(135deg, #2a2035 0%, #1a1525 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .dialogue-speaker-info {
+            flex: 1;
+        }
+
+        .dialogue-speaker {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--color-gold-light);
+            margin-bottom: 0.2rem;
+        }
+
+        .dialogue-speaker-title {
+            font-size: 0.7rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .dialogue-content {
+            padding: 1.5rem;
+        }
+
+        .dialogue-text {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--color-text);
+            min-height: 60px;
+        }
+
+        .dialogue-text .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background: var(--color-gold);
+            margin-left: 2px;
+            animation: blink 0.8s infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .dialogue-choices {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .dialogue-choice {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: rgba(20, 15, 30, 0.6);
+            border: 1px solid rgba(212, 168, 83, 0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: left;
+            color: var(--color-text);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+        }
+
+        .dialogue-choice:hover {
+            background: var(--color-bg-hover);
+            border-color: var(--color-gold);
+            transform: translateX(5px);
+        }
+
+        .dialogue-choice-num {
+            width: 24px;
+            height: 24px;
+            background: var(--color-gold-dark);
+            color: var(--color-bg-dark);
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .dialogue-choice:hover .dialogue-choice-num {
+            background: var(--color-gold);
+        }
+
+        .dialogue-continue {
+            position: absolute;
+            bottom: 1rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* ========================================
+           TOOLTIP
+           ======================================== */
+        .tooltip-container {
+            position: fixed;
+            z-index: 2000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+
+        .tooltip-container.active {
+            opacity: 1;
+        }
+
+        .item-tooltip {
+            background: var(--color-bg-panel);
+            border: 1px solid var(--color-gold-dark);
+            border-radius: 6px;
+            padding: 1rem;
+            min-width: 250px;
+            max-width: 300px;
+            box-shadow: var(--shadow-panel);
+        }
+
+        .tooltip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-simple);
+        }
+
+        .tooltip-name {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .tooltip-name.rarity-common { color: var(--rarity-common); }
+        .tooltip-name.rarity-uncommon { color: var(--rarity-uncommon); }
+        .tooltip-name.rarity-rare { color: var(--rarity-rare); }
+        .tooltip-name.rarity-epic { color: var(--rarity-epic); }
+        .tooltip-name.rarity-legendary { color: var(--rarity-legendary); }
+        .tooltip-name.rarity-mythic { color: var(--rarity-mythic); }
+
+        .tooltip-type {
+            font-size: 0.7rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .tooltip-icon {
+            font-size: 2rem;
+        }
+
+        .tooltip-stats {
+            margin-bottom: 0.75rem;
+        }
+
+        .tooltip-stat {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            padding: 0.2rem 0;
+        }
+
+        .tooltip-stat-value {
+            color: var(--color-green-light);
+        }
+
+        .tooltip-description {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            font-style: italic;
+            line-height: 1.5;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border-simple);
+        }
+
+        /* ========================================
+           BOUTONS DE CONTRÔLE
+           ======================================== */
+        .game-controls {
+            position: fixed;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+
+        .control-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--color-bg-panel);
+            border: 1px solid var(--border-simple);
+            border-radius: 6px;
+            color: var(--color-text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .control-btn:hover {
+            color: var(--color-gold);
+            border-color: var(--color-gold);
+            background: var(--color-bg-hover);
+        }
+
+        .control-btn .keybind {
+            position: absolute;
+            bottom: 2px;
+            right: 4px;
+            font-family: var(--font-display);
+            font-size: 0.5rem;
+            color: var(--color-text-muted);
+        }
+
+        /* ========================================
+           NOTIFICATIONS IN-GAME
+           ======================================== */
+        .notification-area {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 600;
+            pointer-events: none;
+        }
+
+        .game-notification {
+            text-align: center;
+            opacity: 0;
+            animation: notificationPop 3s ease forwards;
+        }
+
+        .notification-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .notification-text {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--color-gold);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .notification-subtext {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-top: 0.25rem;
+        }
+
+        @keyframes notificationPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) translateY(20px);
+            }
+            15% {
+                opacity: 1;
+                transform: scale(1.1) translateY(0);
+            }
+            25% {
+                transform: scale(1) translateY(0);
+            }
+            75% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1) translateY(-20px);
+            }
+        }
+
+        /* ========================================
+           ÉCRAN DE CHARGEMENT
+           ======================================== */
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--color-bg-dark);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loading-screen.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-logo {
+            font-family: var(--font-medieval);
+            font-size: clamp(2rem, 10vw, 4rem);
+            color: var(--color-gold);
+            text-shadow: 0 0 30px rgba(212, 168, 83, 0.5);
+            margin-bottom: 2rem;
+            animation: breathe 3s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { text-shadow: 0 0 30px rgba(212, 168, 83, 0.5); }
+            50% { text-shadow: 0 0 50px rgba(212, 168, 83, 0.8), 0 0 80px rgba(212, 168, 83, 0.3); }
+        }
+
+        .loading-bar-container {
+            width: min(80%, 400px);
+            height: 6px;
+            background: rgba(212, 168, 83, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .loading-bar {
+            height: 100%;
+            background: var(--border-ornate);
+            border-radius: 3px;
+            animation: loadBar 2s ease forwards;
+        }
+
+        @keyframes loadBar {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+
+        .loading-text {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .loading-tip {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            max-width: 500px;
+            padding: 0 2rem;
+        }
+
+        .loading-tip-label {
+            font-size: 0.65rem;
+            color: var(--color-gold-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 0.5rem;
+        }
+
+        .loading-tip-text {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            font-style: italic;
+        }
+
+        /* ========================================
+           SYSTÈME AUDIO
+           ======================================== */
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 250;
+            background: var(--color-bg-panel);
+            border: 2px solid;
+            border-image: var(--border-ornate) 1;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-panel);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 280px;
+            transition: all var(--transition-smooth);
+        }
+
+        .audio-controls:hover {
+            box-shadow: var(--shadow-glow-gold), var(--shadow-panel);
+        }
+
+        .audio-icon {
+            font-size: 1.5rem;
+            color: var(--color-gold);
+        }
+
+        .audio-info {
+            flex: 1;
+        }
+
+        .audio-title {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            color: var(--color-text);
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .audio-subtitle {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            font-style: italic;
+        }
+
+        .audio-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .audio-btn {
+            background: rgba(212, 168, 83, 0.1);
+            border: 1px solid var(--border-simple);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+            color: var(--color-gold);
+            font-size: 1rem;
+        }
+
+        .audio-btn:hover {
+            background: var(--color-gold);
+            color: var(--color-bg-dark);
+            border-color: var(--color-gold);
+            transform: scale(1.1);
+            box-shadow: var(--shadow-glow-gold);
+        }
+
+        .audio-btn:active {
+            transform: scale(0.95);
+        }
+
+        .audio-btn.active {
+            background: var(--color-gold);
+            color: var(--color-bg-dark);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-simple);
+        }
+
+        .volume-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--color-gold);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 8px var(--color-gold);
+            transition: all var(--transition-smooth);
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: var(--color-gold);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 8px var(--color-gold);
+            transition: all var(--transition-smooth);
+        }
+
+        .volume-slider::-moz-range-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .volume-label {
+            font-size: 0.7rem;
+            color: var(--color-text-muted);
+            font-family: var(--font-display);
+            letter-spacing: 0.5px;
+            min-width: 35px;
+            text-align: right;
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 1024px) {
+            .inventory-panel {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto auto;
+            }
+
+            .equipment-section {
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            .stats-section {
+                grid-column: 2;
+                grid-row: 1;
+            }
+
+            .inventory-section {
+                grid-column: 1 / -1;
+                grid-row: 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            html {
+                font-size: 14px;
+            }
+
+            .hud-top {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .character-info {
+                flex-wrap: wrap;
+            }
+
+            .hud-center {
+                order: -1;
+            }
+
+            .hud-right {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .minimap-container {
+                width: 100px;
+                height: 100px;
+            }
+
+            .skill-bar {
+                gap: 0.3rem;
+                padding: 0.5rem;
+            }
+
+            .skill-slot {
+                width: 44px;
+                height: 44px;
+                font-size: 1.2rem;
+            }
+
+            .skill-slot.ultimate {
+                width: 50px;
+                height: 50px;
+            }
+
+            .game-controls {
+                right: 0.5rem;
+            }
+
+            .control-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .inventory-panel {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .equipment-section,
+            .stats-section,
+            .inventory-section {
+                grid-column: 1;
+            }
+
+            .dialogue-container {
+                bottom: 80px;
+            }
+
+            .audio-controls {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            html {
+                font-size: 12px;
+            }
+
+            .game-container {
+                padding: 0.5rem;
+            }
+
+            .character-portrait {
+                width: 45px;
+                height: 45px;
+                font-size: 1.5rem;
+            }
+
+            .stat-bars {
+                min-width: 120px;
+            }
+
+            .resources-panel {
+                gap: 0.5rem;
+                padding: 0.4rem 0.6rem;
+            }
+
+            .minimap-container {
+                width: 70px;
+                height: 70px;
+            }
+
+            .hud-bottom {
+                bottom: 0.5rem;
+            }
+
+            .skill-slot {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+
+            .skill-slot.ultimate {
+                width: 42px;
+                height: 42px;
+            }
+
+            .dialogue-header {
+                padding: 0.75rem 1rem;
+            }
+
+            .dialogue-portrait {
+                width: 45px;
+                height: 45px;
+                font-size: 1.5rem;
+            }
+
+            .dialogue-content {
+                padding: 1rem;
+            }
+
+            .dialogue-choices {
+                padding: 0 1rem 1rem;
+            }
+
+            .game-controls {
+                position: fixed;
+                top: auto;
+                bottom: 80px;
+                right: 0.5rem;
+                transform: none;
+                flex-direction: row;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .skill-bar {
+                flex-wrap: wrap;
+                justify-content: center;
+                max-width: 200px;
+            }
+
+            .minimap-container {
+                display: none;
+            }
+
+            .quest-tracker {
+                display: none;
+            }
+        }
+
+        @media (max-width: 200px) {
+            .hud-right,
+            .hud-center,
+            .game-controls,
+            .minimap-container {
+                display: none !important;
+            }
+
+            .skill-bar {
+                padding: 0.25rem;
+                gap: 0.2rem;
+            }
+
+            .skill-slot {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 100px) {
+            .hud-top,
+            .hud-bottom,
+            .game-controls {
+                display: none !important;
+            }
+
+            .dialogue-container {
+                bottom: 0;
+                width: 100%;
+                padding: 0.25rem;
+            }
+
+            .dialogue-header {
+                display: none;
+            }
+
+            .dialogue-text {
+                font-size: 0.7rem;
+            }
+
+            .loading-logo {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="game-cursor">
+
+    <!-- Bouton RPG Info -->
+    <button class="rpg-info-btn" onclick="toggleRPGModal()" title="Qu'est-ce qu'un RPG ?">
+        ?
+    </button>
+
+    <!-- Modal RPG Info -->
+    <div class="rpg-modal-overlay" id="rpgModal">
+        <div class="rpg-modal">
+            <div class="rpg-modal-header">
+                <h1 class="rpg-modal-title">
+                    <span>🎮</span>
+                    Qu'est-ce qu'un RPG ?
+                </h1>
+                <button class="rpg-modal-close" onclick="toggleRPGModal()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="rpg-modal-content">
+                <h2>📖 Définition</h2>
+                <p>
+                    <span class="rpg-highlight">RPG</span> signifie <span class="rpg-highlight">Role-Playing Game</span> (Jeu de Rôle en français). 
+                    C'est un type de jeu vidéo où vous incarnez un personnage dans un univers fictif et vivez une aventure épique 
+                    en prenant des décisions qui influencent l'histoire.
+                </p>
+
+                <h2>⚔️ Les caractéristiques principales</h2>
+                <ul>
+                    <li><span class="rpg-highlight">Création de personnage</span> : Vous créez et personnalisez votre héros (apparence, classe, compétences)</li>
+                    <li><span class="rpg-highlight">Progression</span> : Votre personnage évolue en gagnant de l'expérience (XP) et monte de niveau</li>
+                    <li><span class="rpg-highlight">Quêtes</span> : Des missions principales et secondaires qui font avancer l'histoire</li>
+                    <li><span class="rpg-highlight">Inventaire</span> : Collecte et gestion d'objets, armes, armures et potions</li>
+                    <li><span class="rpg-highlight">Combats</span> : Affrontez des ennemis en utilisant stratégie et compétences</li>
+                    <li><span class="rpg-highlight">Statistiques</span> : Points de vie (HP), mana (MP), force, intelligence, etc.</li>
+                    <li><span class="rpg-highlight">Choix narratifs</span> : Vos décisions impactent l'histoire et les personnages</li>
+                </ul>
+
+                <div class="rpg-example-box">
+                    <h3>🎯 Exemple concret</h3>
+                    <p>
+                        Imaginez que vous êtes un <span class="rpg-highlight">Sorcier de niveau 42</span>. Vous explorez un donjon sombre, 
+                        combattez des monstres pour gagner de l'XP et trouver des trésors. En progressant, vous débloquez de nouveaux sorts 
+                        et équipements plus puissants. Vous devez aussi faire des choix : aider le village attaqué ou poursuivre le boss final ?
+                    </p>
+                </div>
+
+                <h2>🌟 Types de RPG</h2>
+                <ul>
+                    <li><span class="rpg-highlight">JRPG</span> (Japanese RPG) : Final Fantasy, Dragon Quest, Persona</li>
+                    <li><span class="rpg-highlight">Action RPG</span> : The Witcher, Dark Souls, Elden Ring</li>
+                    <li><span class="rpg-highlight">RPG tactique</span> : Fire Emblem, XCOM, Divinity</li>
+                    <li><span class="rpg-highlight">MMORPG</span> (Multijoueur) : World of Warcraft, Final Fantasy XIV</li>
+                    <li><span class="rpg-highlight">RPG occidental</span> : Skyrim, Fallout, Baldur's Gate</li>
+                </ul>
+
+                <h2>🎲 Origines</h2>
+                <p>
+                    Les RPG vidéo s'inspirent des <span class="rpg-highlight">jeux de rôle sur table</span> comme Donjons & Dragons, 
+                    où les joueurs racontent une histoire ensemble autour d'une table avec des dés. Les premiers RPG vidéo sont apparus 
+                    dans les années 1970-1980, et le genre n'a cessé d'évoluer depuis.
+                </p>
+
+                <h2>💡 Pourquoi jouer à un RPG ?</h2>
+                <ul>
+                    <li>Vivre une <span class="rpg-highlight">histoire immersive</span> et captivante</li>
+                    <li>Développer votre personnage selon <span class="rpg-highlight">votre style de jeu</span></li>
+                    <li>Explorer des <span class="rpg-highlight">mondes vastes</span> et détaillés</li>
+                    <li>Résoudre des énigmes et utiliser votre <span class="rpg-highlight">stratégie</span></li>
+                    <li>Faire des choix qui ont des <span class="rpg-highlight">conséquences réelles</span></li>
+                    <li>Profiter d'une durée de vie de <span class="rpg-highlight">plusieurs dizaines d'heures</span></li>
+                </ul>
+
+                <div class="rpg-example-box">
+                    <h3>🏰 Cette interface</h3>
+                    <p>
+                        L'interface que vous voyez ici reproduit les <span class="rpg-highlight">éléments classiques d'un RPG</span> : 
+                        barres de vie/mana/endurance, liste de quêtes actives, inventaire, compétences, système de dialogue avec choix, 
+                        et notifications d'événements. C'est une démonstration interactive de ce à quoi ressemble un vrai jeu RPG !
+                    </p>
+                </div>
+
+                <p style="margin-top: 2rem; text-align: center; color: var(--color-gold); font-style: italic;">
+                    Prêt à commencer votre aventure ? Les mondes fantastiques vous attendent ! ⚔️✨
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- ==================== ÉCRAN DE CHARGEMENT ==================== -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">Aethermoor</div>
+        <div class="loading-bar-container">
+            <div class="loading-bar"></div>
+        </div>
+        <div class="loading-text">Chargement du monde...</div>
+        <div class="loading-tip">
+            <div class="loading-tip-label">Conseil</div>
+            <div class="loading-tip-text">"Les anciennes runes cachent des pouvoirs oubliés. <br> Gardez l'œil ouvert lors de vos explorations."</div>
+        </div>
+    </div>
+
+    <!-- ==================== FOND DU JEU ==================== -->
+    <div class="game-scene"></div>
+    
+    <!-- Particules flottantes -->
+    <div class="particles" id="particles"></div>
+
+    <!-- ==================== CONTENEUR PRINCIPAL ==================== -->
+    <div class="game-container">
+
+        <!-- ========== HUD SUPÉRIEUR ========== -->
+        <div class="hud-top">
+            <!-- Infos personnage -->
+            <div class="character-info">
+                <div class="character-portrait">
+                    🧙
+                    <span class="character-level">42</span>
+                </div>
+                <div class="character-details">
+                    <div class="character-name">Eldric Sombrelune</div>
+                    <div class="character-class">Archimage</div>
+                </div>
+                <div class="stat-bars">
+                    <div class="stat-bar stat-bar-health">
+                        <div class="stat-icon" style="color: var(--color-red-light);">❤️</div>
+                        <div class="stat-bar-container">
+                            <div class="stat-bar-fill" style="width: 75%;" id="healthBar"></div>
+                        </div>
+                        <div class="stat-value" id="healthValue">2847 / 3800</div>
+                    </div>
+                    <div class="stat-bar stat-bar-mana">
+                        <div class="stat-icon" style="color: var(--color-blue-light);">💧</div>
+                        <div class="stat-bar-container">
+                            <div class="stat-bar-fill" style="width: 60%;" id="manaBar"></div>
+                        </div>
+                        <div class="stat-value" id="manaValue">1520 / 2500</div>
+                    </div>
+                    <div class="stat-bar stat-bar-stamina">
+                        <div class="stat-icon" style="color: var(--color-green-light);">⚡</div>
+                        <div class="stat-bar-container">
+                            <div class="stat-bar-fill" style="width: 90%;" id="staminaBar"></div>
+                        </div>
+                        <div class="stat-value" id="staminaValue">180 / 200</div>
+                    </div>
+                    <div class="stat-bar stat-bar-xp">
+                        <div class="stat-icon" style="color: var(--color-purple-light);">✨</div>
+                        <div class="stat-bar-container">
+                            <div class="stat-bar-fill" style="width: 65%;" id="xpBar"></div>
+                        </div>
+                        <div class="stat-value" id="xpValue">32,450 XP</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zone centrale - Quête -->
+            <div class="hud-center">
+                <div class="quest-tracker">
+                    <div class="quest-label">🗡️ Quête active</div>
+                    <div class="quest-title">Les ombres d'Aethermoor</div>
+                    <div class="quest-objective">Éliminer les spectres : <span>3/5</span></div>
+                </div>
+            </div>
+
+            <!-- Zone droite - Ressources & Mini-map -->
+            <div class="hud-right">
+                <div class="resources-panel">
+                    <div class="resource-item">
+                        <span class="resource-icon">👿</span>
+                        <span class="resource-value">12,847</span>
+                    </div>
+                    <div class="resource-item">
+                        <span class="resource-icon">💎</span>
+                        <span class="resource-value">342</span>
+                    </div>
+                    <div class="resource-item">
+                        <span class="resource-icon">🔮</span>
+                        <span class="resource-value">28</span>
+                    </div>
+                </div>
+                <div class="minimap-container">
+                    <span class="minimap-compass">N</span>
+                    <div class="minimap-inner">
+                        <div class="minimap-player"></div>
+                        <div class="minimap-poi quest"></div>
+                        <div class="minimap-poi enemy"></div>
+                        <div class="minimap-poi npc"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== CONTRÔLES LATÉRAUX ========== -->
+        <div class="game-controls">
+            <button class="control-btn" onclick="toggleMenu()" title="Menu">
+                <i class="bi bi-list"></i>
+                <span class="keybind">ESC</span>
+            </button>
+            <button class="control-btn" onclick="toggleInventory()" title="Inventaire">
+                <i class="bi bi-bag"></i>
+                <span class="keybind">I</span>
+            </button>
+            <button class="control-btn" onclick="showNotification('📜', 'Journal de quêtes', 'Appuyez sur J')" title="Quêtes">
+                <i class="bi bi-journal-text"></i>
+                <span class="keybind">J</span>
+            </button>
+            <button class="control-btn" onclick="showNotification('🗺️', 'Carte du monde', 'Appuyez sur M')" title="Carte">
+                <i class="bi bi-map"></i>
+                <span class="keybind">M</span>
+            </button>
+            <button class="control-btn" onclick="showNotification('⚔️', 'Compétences', 'Appuyez sur K')" title="Compétences">
+                <i class="bi bi-lightning"></i>
+                <span class="keybind">K</span>
+            </button>
+        </div>
+
+        <!-- ========== BARRE DE COMPÉTENCES ========== -->
+        <div class="hud-bottom">
+            <div class="skill-bar">
+                <div class="skill-slot" onclick="useSkill(1)" title="Boule de feu">
+                    <span class="skill-keybind">1</span>
+                    🔥
+                </div>
+                <div class="skill-slot" onclick="useSkill(2)" title="Éclair">
+                    <span class="skill-keybind">2</span>
+                    ⚡
+                </div>
+                <div class="skill-slot" onclick="useSkill(3)" title="Bouclier arcanique">
+                    <span class="skill-keybind">3</span>
+                    🛡️
+                </div>
+                <div class="skill-slot" onclick="useSkill(4)" title="Téléportation">
+                    <span class="skill-keybind">4</span>
+                    🌀
+                </div>
+                <div class="skill-slot ultimate" onclick="useSkill(5)" title="Tempête arcanique">
+                    <span class="skill-keybind">R</span>
+                    🌟
+                </div>
+                <div class="skill-slot" onclick="useSkill(6)" title="Soin">
+                    <span class="skill-keybind">5</span>
+                    💚
+                </div>
+                <div class="skill-slot" onclick="useSkill(7)" title="Potion de vie">
+                    <span class="skill-keybind">Q</span>
+                    🧪
+                </div>
+                <div class="skill-slot" onclick="useSkill(8)" title="Potion de mana">
+                    <span class="skill-keybind">E</span>
+                    🧴
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==================== MENU PRINCIPAL ==================== -->
+    <div class="menu-overlay" id="menuOverlay">
+        <button class="menu-close" onclick="toggleMenu()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+        <div class="main-menu">
+            <div class="menu-logo">Aethermoor</div>
+            <div class="menu-subtitle">Chroniques des royaumes oubliés</div>
+            <div class="menu-items">
+                <button class="menu-btn" onclick="toggleMenu()">Reprendre</button>
+                <button class="menu-btn" onclick="toggleInventory(); toggleMenu();">Inventaire</button>
+                <button class="menu-btn" onclick="showNotification('📜', 'Journal', 'Fonctionnalité démo')">Journal</button>
+                <button class="menu-btn" onclick="showNotification('🗺️', 'Carte', 'Fonctionnalité démo')">Carte du Monde</button>
+                <button class="menu-btn" onclick="showNotification('⚙️', 'Paramètres', 'Fonctionnalité démo')">Paramètres</button>
+                <button class="menu-btn" onclick="showNotification('💾', 'Sauvegarde', 'Partie sauvegardée!')">Sauvegarder</button>
+                <button class="menu-btn" onclick="showNotification('🚪', 'Quitter', 'Merci d\'avoir joué!')">Quitter le Jeu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== INVENTAIRE ==================== -->
+    <div class="inventory-overlay" id="inventoryOverlay">
+        <button class="inventory-close" onclick="toggleInventory()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+        <div class="inventory-panel">
+            <!-- Équipement -->
+            <div class="equipment-section">
+                <div class="section-title">Équipement</div>
+                <div class="character-model">🧙</div>
+                <div class="equipment-slots">
+                    <div class="equip-slot equipped" data-slot="head" onclick="showItemTooltip(event, 'equipped')">
+                        <span class="equip-slot-icon">👑</span>
+                        <span class="equip-slot-label">Tête</span>
+                    </div>
+                    <div class="equip-slot equipped" data-slot="neck" onclick="showItemTooltip(event, 'equipped')">
+                        <span class="equip-slot-icon">📿</span>
+                        <span class="equip-slot-label">Cou</span>
+                    </div>
+                    <div class="equip-slot equipped" data-slot="chest" onclick="showItemTooltip(event, 'equipped')">
+                        <span class="equip-slot-icon">🥋</span>
+                        <span class="equip-slot-label">Torse</span>
+                    </div>
+                    <div class="equip-slot" data-slot="back">
+                        <span class="equip-slot-icon">🧥</span>
+                        <span class="equip-slot-label">Dos</span>
+                    </div>
+                    <div class="equip-slot equipped" data-slot="hands" onclick="showItemTooltip(event, 'equipped')">
+                        <span class="equip-slot-icon">🧤</span>
+                        <span class="equip-slot-label">Mains</span>
+                    </div>
+                    <div class="equip-slot equipped" data-slot="weapon" onclick="showItemTooltip(event, 'equipped')">
+                        <span class="equip-slot-icon">🪄</span>
+                        <span class="equip-slot-label">Arme</span>
+                    </div>
+                    <div class="equip-slot" data-slot="legs">
+                        <span class="equip-slot-icon">👖</span>
+                        <span class="equip-slot-label">Jambes</span>
+                    </div>
+                    <div class="equip-slot equipped" data-slot="feet" onclick="showItemTooltip(event, 'equipped')">
+                        <span class="equip-slot-icon">👢</span>
+                        <span class="equip-slot-label">Pieds</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventaire -->
+            <div class="inventory-section">
+                <div class="section-title">Sac à Dos</div>
+                <div class="inventory-tabs">
+                    <button class="inv-tab active" data-tab="all">Tout</button>
+                    <button class="inv-tab" data-tab="weapons">Armes</button>
+                    <button class="inv-tab" data-tab="armor">Armures</button>
+                    <button class="inv-tab" data-tab="consumables">Consommables</button>
+                    <button class="inv-tab" data-tab="materials">Matériaux</button>
+                    <button class="inv-tab" data-tab="quest">Quête</button>
+                </div>
+                <div class="inventory-grid" id="inventoryGrid">
+                    <!-- Généré par JavaScript -->
+                </div>
+            </div>
+
+            <!-- Statistiques -->
+            <div class="stats-section">
+                <div class="section-title">Statistiques</div>
+                <div class="stats-list">
+                    <div class="stat-row">
+                        <span class="stat-name"><i class="bi bi-lightning"></i> Puissance</span>
+                        <span class="stat-val">2,847</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-name"><i class="bi bi-shield"></i> Défense</span>
+                        <span class="stat-val">1,523</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-name"><i class="bi bi-bullseye"></i> Précision</span>
+                        <span class="stat-val">89%</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-name"><i class="bi bi-droplet"></i> Critique</span>
+                        <span class="stat-val positive">+34%</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-name"><i class="bi bi-speedometer"></i> Vitesse</span>
+                        <span class="stat-val">125</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-name"><i class="bi bi-stars"></i> Magie</span>
+                        <span class="stat-val positive">+456</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-name"><i class="bi bi-fire"></i> Dégâts Feu</span>
+                        <span class="stat-val positive">+28%</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-name"><i class="bi bi-snow"></i> Rés. Glace</span>
+                        <span class="stat-val">45%</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-name"><i class="bi bi-heart-pulse"></i> Régén. Vie</span>
+                        <span class="stat-val">12/s</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-name"><i class="bi bi-magic"></i> Régén. Mana</span>
+                        <span class="stat-val">8/s</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SYSTÈME DE DIALOGUE ==================== -->
+    <div class="dialogue-container" id="dialogueContainer">
+        <div class="dialogue-box">
+            <div class="dialogue-header">
+                <div class="dialogue-portrait" id="dialoguePortrait">👴</div>
+                <div class="dialogue-speaker-info">
+                    <div class="dialogue-speaker" id="dialogueSpeaker">Maître Aldric</div>
+                    <div class="dialogue-speaker-title" id="dialogueTitle">Archimage de la Tour d'Argent</div>
+                </div>
+            </div>
+            <div class="dialogue-content">
+                <p class="dialogue-text" id="dialogueText"></p>
+            </div>
+            <div class="dialogue-choices" id="dialogueChoices">
+                <!-- Généré par JavaScript -->
+            </div>
+            <div class="dialogue-continue" id="dialogueContinue" style="display: none;">
+                <span>Continuer</span>
+                <i class="bi bi-chevron-double-right"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOOLTIP ==================== -->
+    <div class="tooltip-container" id="tooltipContainer">
+        <div class="item-tooltip" id="itemTooltip">
+            <!-- Généré par JavaScript -->
+        </div>
+    </div>
+
+    <!-- ==================== ZONE DE NOTIFICATION ==================== -->
+    <div class="notification-area" id="notificationArea"></div>
+
+    <!-- ==================== CONTRÔLES AUDIO ==================== -->
+    <div class="audio-controls">
+        <div class="audio-icon">🎵</div>
+        <div class="audio-info">
+            <div class="audio-title">Ambiance Mystique</div>
+            <div class="audio-subtitle">Les Forges d'Aethermoor</div>
+        </div>
+        <div class="audio-buttons">
+            <button class="audio-btn" id="playPauseBtn" onclick="toggleAudio()" title="Lecture / Pause">
+                <i class="bi bi-play-fill" id="playPauseIcon"></i>
+            </button>
+            <button class="audio-btn" id="muteBtn" onclick="toggleMute()" title="Muet">
+                <i class="bi bi-volume-up-fill" id="muteIcon"></i>
+            </button>
+        </div>
+        <div class="volume-control">
+            <i class="bi bi-volume-down" style="color: var(--color-text-muted); font-size: 0.9rem;"></i>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70" oninput="changeVolume(this.value)" aria-label="Bouton volume musique arrière-plan">
+            <span class="volume-label" id="volumeLabel">70%</span>
+        </div>
+    </div>
+
+    <!-- Élément audio -->
+    <audio id="bgMusic" loop>
+        <source src="audio/musique-mystique.mp3" type="audio/mpeg">
+    </audio>
+
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // ==========================================
+        // DONNÉES DU JEU
+        // ==========================================
+        const inventoryItems = [
+            { id: 1, name: "Bâton de Foudre", type: "Arme", icon: "🪄", rarity: "legendary", stats: { puissance: 245, magie: 180 }, description: "Forgé dans les tempêtes éternelles du Mont Tonnerre, ce bâton canalise la puissance des éclairs." },
+            { id: 2, name: "Couronne du Sage", type: "Tête", icon: "👑", rarity: "epic", stats: { defense: 89, magie: 120 }, description: "Portée jadis par les archimages du Premier Âge." },
+            { id: 3, name: "Potion de Vie", type: "Consommable", icon: "🧪", rarity: "common", quantity: 12, description: "Restaure 500 points de vie." },
+            { id: 4, name: "Potion de Mana", type: "Consommable", icon: "🧴", rarity: "common", quantity: 8, description: "Restaure 300 points de mana." },
+            { id: 5, name: "Amulette de l'Aube", type: "Cou", icon: "📿", rarity: "rare", stats: { critique: 15, vitesse: 20 }, description: "Bénie par la lumière du premier soleil." },
+            { id: 6, name: "Essence d'Ombre", type: "Matériau", icon: "🌑", rarity: "epic", quantity: 5, description: "Fragment de ténèbres solidifiées." },
+            { id: 7, name: "Cristal Arcanique", type: "Matériau", icon: "💎", rarity: "rare", quantity: 23, description: "Utilisé pour enchanter des objets." },
+            { id: 8, name: "Parchemin Ancien", type: "Quête", icon: "📜", rarity: "uncommon", description: "Contient des indices sur l'emplacement du temple perdu." },
+            { id: 9, name: "Épée du Crépuscule", type: "Arme", icon: "⚔️", rarity: "mythic", stats: { puissance: 380, critique: 25 }, description: "Une lame légendaire qui absorbe la lumière environnante." },
+            { id: 10, name: "Robe de l'Archimage", type: "Torse", icon: "🥋", rarity: "legendary", stats: { defense: 156, magie: 200 }, description: "Tissée avec des fils d'éther pur." },
+            { id: 11, name: "Bottes de Célérité", type: "Pieds", icon: "👢", rarity: "rare", stats: { vitesse: 45 }, description: "Permettent de se déplacer comme le vent." },
+            { id: 12, name: "Herbes Médicinales", type: "Matériau", icon: "🌿", rarity: "common", quantity: 45, description: "Ingrédient alchimique de base." },
+            { id: 13, name: "Plume de Phénix", type: "Matériau", icon: "🪶", rarity: "legendary", quantity: 2, description: "Extrêmement rare, utilisée pour les enchantements de feu." },
+            { id: 14, name: "Anneau de Protection", type: "Accessoire", icon: "💍", rarity: "epic", stats: { defense: 50, resistance: 30 }, description: "Crée un bouclier magique autour du porteur." },
+            { id: 15, name: "Clé du Donjon", type: "Quête", icon: "🗝️", rarity: "rare", description: "Ouvre les portes du Donjon des Âmes Perdues." },
+            { id: 16, name: "Élixir de Force", type: "Consommable", icon: "💪", rarity: "uncommon", quantity: 3, description: "Augmente la puissance de 20% pendant 5 minutes." },
+        ];
+
+        const dialogueData = [
+            {
+                speaker: "Maître Aldric",
+                title: "Archimage de la Tour d'Argent",
+                portrait: "👴",
+                text: "Bienvenue, jeune mage. Les ombres s'épaississent au-dessus d'Aethermoor. Les spectres qui hantent les ruines anciennes deviennent plus agressifs chaque jour.",
+                choices: [
+                    { text: "Que puis-je faire pour aider ?", next: 1 },
+                    { text: "Parlez-moi de ces spectres.", next: 2 },
+                    { text: "Je reviendrai plus tard.", next: -1 }
+                ]
+            },
+            {
+                speaker: "Maître Aldric",
+                title: "Archimage de la Tour d'Argent",
+                portrait: "👴",
+                text: "Votre maîtrise de l'arcane est impressionnante. Rendez-vous aux Ruines de Valdris et éliminez les spectres. Mais prenez garde... leur chef, l'Ombre Éternelle, est d'une puissance redoutable.",
+                choices: [
+                    { text: "J'accepte cette quête.", next: 3 },
+                    { text: "Quelle sera ma récompense ?", next: 4 }
+                ]
+            },
+            {
+                speaker: "Maître Aldric",
+                title: "Archimage de la Tour d'Argent",
+                portrait: "👴",
+                text: "Ces créatures sont les vestiges d'anciens mages corrompus par la magie noire. Ils cherchent à drainer l'énergie vitale des vivants pour reconstituer leur forme physique.",
+                choices: [
+                    { text: "Comment les vaincre ?", next: 5 },
+                    { text: "Je comprends. Que dois-je faire ?", next: 1 }
+                ]
+            },
+            {
+                speaker: "Maître Aldric",
+                title: "Archimage de la Tour d'Argent",
+                portrait: "👴",
+                text: "Excellent ! Prenez ce parchemin de protection. Il vous sera utile contre leurs attaques spectrales. Que la lumière guide vos pas, Eldric.",
+                choices: null,
+                reward: "📜 Parchemin de Protection obtenu !"
+            },
+            {
+                speaker: "Maître Aldric",
+                title: "Archimage de la Tour d'Argent",
+                portrait: "👴",
+                text: "Outre la gratitude éternelle de notre ordre, vous recevrez 5000 pièces d'or et un artefact rare de notre collection. La Tour d'Argent récompense toujours ses champions.",
+                choices: [
+                    { text: "Marché conclu !", next: 3 },
+                    { text: "Je dois y réfléchir.", next: -1 }
+                ]
+            },
+            {
+                speaker: "Maître Aldric",
+                title: "Archimage de la Tour d'Argent",
+                portrait: "👴",
+                text: "La magie de lumière est leur faiblesse. Vos sorts de feu seront également efficaces. Évitez le combat rapproché - leur toucher gèle l'âme elle-même.",
+                choices: [
+                    { text: "Merci pour ces conseils.", next: 1 }
+                ]
+            }
+        ];
+
+        // ==========================================
+        // VARIABLES GLOBALES
+        // ==========================================
+        let currentDialogueIndex = 0;
+        let isTyping = false;
+        let typewriterInterval = null;
+
+        // ==========================================
+        // INITIALISATION
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Écran de chargement
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('loaded');
+            }, 2500);
+
+            // Générer les particules
+            generateParticles();
+
+            // Générer l'inventaire
+            generateInventory();
+
+            // Événements clavier
+            initKeyboardEvents();
+
+            // Onglets inventaire
+            initInventoryTabs();
+
+            // Démarrer le dialogue après un délai
+            setTimeout(() => {
+                startDialogue(0);
+            }, 3500);
+        });
+
+        // ==========================================
+        // PARTICULES
+        // ==========================================
+        function generateParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // ==========================================
+        // INVENTAIRE
+        // ==========================================
+        function generateInventory() {
+            const grid = document.getElementById('inventoryGrid');
+            grid.innerHTML = '';
+
+            // Ajouter les items
+            inventoryItems.forEach(item => {
+                const slot = document.createElement('div');
+                slot.className = `inv-slot has-item rarity-${item.rarity}`;
+                slot.innerHTML = `
+                    <span>${item.icon}</span>
+                    ${item.quantity ? `<span class="inv-slot-quantity">${item.quantity}</span>` : ''}
+                `;
+                slot.onclick = (e) => showItemTooltip(e, item);
+                slot.onmouseleave = hideTooltip;
+                grid.appendChild(slot);
+            });
+
+            // Ajouter des slots vides
+            for (let i = inventoryItems.length; i < 40; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'inv-slot';
+                grid.appendChild(slot);
+            }
+        }
+
+        function initInventoryTabs() {
+            document.querySelectorAll('.inv-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.inv-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    filterInventory(tab.dataset.tab);
+                });
+            });
+        }
+
+        function filterInventory(category) {
+            const grid = document.getElementById('inventoryGrid');
+            grid.innerHTML = '';
+
+            let filtered = inventoryItems;
+            if (category !== 'all') {
+                const categoryMap = {
+                    'weapons': ['Arme'],
+                    'armor': ['Tête', 'Torse', 'Pieds', 'Mains', 'Dos', 'Jambes'],
+                    'consumables': ['Consommable'],
+                    'materials': ['Matériau'],
+                    'quest': ['Quête']
+                };
+                filtered = inventoryItems.filter(item => categoryMap[category]?.includes(item.type));
+            }
+
+            filtered.forEach(item => {
+                const slot = document.createElement('div');
+                slot.className = `inv-slot has-item rarity-${item.rarity}`;
+                slot.innerHTML = `
+                    <span>${item.icon}</span>
+                    ${item.quantity ? `<span class="inv-slot-quantity">${item.quantity}</span>` : ''}
+                `;
+                slot.onclick = (e) => showItemTooltip(e, item);
+                slot.onmouseleave = hideTooltip;
+                grid.appendChild(slot);
+            });
+
+            // Slots vides
+            const emptyCount = Math.max(0, 20 - filtered.length);
+            for (let i = 0; i < emptyCount; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'inv-slot';
+                grid.appendChild(slot);
+            }
+        }
+
+        // ==========================================
+        // TOOLTIP
+        // ==========================================
+        function showItemTooltip(event, item) {
+            const tooltip = document.getElementById('tooltipContainer');
+            const tooltipContent = document.getElementById('itemTooltip');
+
+            if (item === 'equipped') {
+                item = inventoryItems[Math.floor(Math.random() * 5)];
+            }
+
+            let statsHTML = '';
+            if (item.stats) {
+                statsHTML = '<div class="tooltip-stats">';
+                for (const [stat, value] of Object.entries(item.stats)) {
+                    statsHTML += `
+                        <div class="tooltip-stat">
+                            <span>${stat.charAt(0).toUpperCase() + stat.slice(1)}</span>
+                            <span class="tooltip-stat-value">+${value}</span>
+                        </div>
+                    `;
+                }
+                statsHTML += '</div>';
+            }
+
+            tooltipContent.innerHTML = `
+                <div class="tooltip-header">
+                    <div>
+                        <div class="tooltip-name rarity-${item.rarity}">${item.name}</div>
+                        <div class="tooltip-type">${item.type} • ${item.rarity}</div>
+                    </div>
+                    <div class="tooltip-icon">${item.icon}</div>
+                </div>
+                ${statsHTML}
+                <div class="tooltip-description">${item.description}</div>
+            `;
+
+            const rect = event.target.getBoundingClientRect();
+            tooltip.style.left = (rect.right + 10) + 'px';
+            tooltip.style.top = rect.top + 'px';
+
+            // Vérifier si le tooltip dépasse l'écran
+            if (rect.right + 270 > window.innerWidth) {
+                tooltip.style.left = (rect.left - 260) + 'px';
+            }
+
+            tooltip.classList.add('active');
+        }
+
+        function hideTooltip() {
+            document.getElementById('tooltipContainer').classList.remove('active');
+        }
+
+        // ==========================================
+        // SYSTÈME DE DIALOGUE
+        // ==========================================
+        function startDialogue(index) {
+            currentDialogueIndex = index;
+            const dialogue = dialogueData[index];
+            const container = document.getElementById('dialogueContainer');
+
+            document.getElementById('dialogueSpeaker').textContent = dialogue.speaker;
+            document.getElementById('dialogueTitle').textContent = dialogue.title;
+            document.getElementById('dialoguePortrait').textContent = dialogue.portrait;
+
+            container.classList.add('active');
+            typeText(dialogue.text, () => {
+                showChoices(dialogue.choices, dialogue.reward);
+            });
+        }
+
+        function typeText(text, callback) {
+            const textElement = document.getElementById('dialogueText');
+            textElement.innerHTML = '<span class="typing-cursor"></span>';
+            isTyping = true;
+            let charIndex = 0;
+
+            clearInterval(typewriterInterval);
+            typewriterInterval = setInterval(() => {
+                if (charIndex < text.length) {
+                    textElement.innerHTML = text.substring(0, charIndex + 1) + '<span class="typing-cursor"></span>';
+                    charIndex++;
+                } else {
+                    clearInterval(typewriterInterval);
+                    textElement.innerHTML = text;
+                    isTyping = false;
+                    if (callback) callback();
+                }
+            }, 30);
+        }
+
+        function showChoices(choices, reward) {
+            const choicesContainer = document.getElementById('dialogueChoices');
+            const continueIndicator = document.getElementById('dialogueContinue');
+
+            choicesContainer.innerHTML = '';
+
+            if (reward) {
+                showNotification('🎁', 'Récompense', reward);
+            }
+
+            if (choices && choices.length > 0) {
+                choices.forEach((choice, index) => {
+                    const button = document.createElement('button');
+                    button.className = 'dialogue-choice';
+                    button.innerHTML = `
+                        <span class="dialogue-choice-num">${index + 1}</span>
+                        <span>${choice.text}</span>
+                    `;
+                    button.onclick = () => selectChoice(choice.next);
+                    choicesContainer.appendChild(button);
+                });
+                continueIndicator.style.display = 'none';
+            } else {
+                continueIndicator.style.display = 'flex';
+                continueIndicator.onclick = () => closeDialogue();
+            }
+        }
+
+        function selectChoice(nextIndex) {
+            if (nextIndex === -1) {
+                closeDialogue();
+            } else {
+                startDialogue(nextIndex);
+            }
+        }
+
+        function closeDialogue() {
+            document.getElementById('dialogueContainer').classList.remove('active');
+        }
+
+        // ==========================================
+        // MENUS
+        // ==========================================
+        function toggleMenu() {
+            document.getElementById('menuOverlay').classList.toggle('active');
+        }
+
+        function toggleInventory() {
+            document.getElementById('inventoryOverlay').classList.toggle('active');
+        }
+
+        // ==========================================
+        // COMPÉTENCES
+        // ==========================================
+        function useSkill(skillNum) {
+            const slots = document.querySelectorAll('.skill-slot');
+            const slot = slots[skillNum - 1];
+
+            if (slot && !slot.classList.contains('on-cooldown')) {
+                slot.classList.add('on-cooldown');
+
+                const skillNames = ['Boule de feu', 'Éclair', 'Bouclier', 'Téléportation', 'Tempête Arcanique', 'Soin', 'Potion Vie', 'Potion Mana'];
+                showNotification('✨', skillNames[skillNum - 1], 'Compétence activée !');
+
+                // Simuler effet sur les barres
+                if (skillNum === 6) {
+                    animateStatBar('health', 90);
+                } else if (skillNum === 7) {
+                    animateStatBar('health', 100);
+                } else if (skillNum === 8) {
+                    animateStatBar('mana', 100);
+                } else {
+                    animateStatBar('mana', Math.max(20, 60 - skillNum * 5));
+                }
+
+                setTimeout(() => {
+                    slot.classList.remove('on-cooldown');
+                }, 3000);
+            }
+        }
+
+        function animateStatBar(type, targetPercent) {
+            const bar = document.getElementById(type + 'Bar');
+            bar.style.width = targetPercent + '%';
+        }
+
+        // ==========================================
+        // NOTIFICATIONS
+        // ==========================================
+        function showNotification(icon, title, subtitle = '') {
+            const area = document.getElementById('notificationArea');
+            const notif = document.createElement('div');
+            notif.className = 'game-notification';
+            notif.innerHTML = `
+                <div class="notification-icon">${icon}</div>
+                <div class="notification-text">${title}</div>
+                ${subtitle ? `<div class="notification-subtext">${subtitle}</div>` : ''}
+            `;
+            area.innerHTML = '';
+            area.appendChild(notif);
+
+            setTimeout(() => {
+                notif.remove();
+            }, 3000);
+        }
+
+        // ==========================================
+        // ÉVÉNEMENTS CLAVIER
+        // ==========================================
+        function initKeyboardEvents() {
+            document.addEventListener('keydown', (e) => {
+                switch(e.key.toLowerCase()) {
+                    case 'escape':
+                        if (document.getElementById('inventoryOverlay').classList.contains('active')) {
+                            toggleInventory();
+                        } else {
+                            toggleMenu();
+                        }
+                        break;
+                    case 'i':
+                        toggleInventory();
+                        break;
+                    case '1': case '2': case '3': case '4': case '5':
+                        useSkill(parseInt(e.key));
+                        break;
+                    case 'q':
+                        useSkill(7);
+                        break;
+                    case 'e':
+                        useSkill(8);
+                        break;
+                    case 'r':
+                        useSkill(5);
+                        break;
+                    case 'j':
+                        showNotification('📜', 'Journal de quêtes', 'Appuyez sur J');
+                        break;
+                    case 'm':
+                        showNotification('🗺️', 'Carte du monde', 'Appuyez sur M');
+                        break;
+                    case 'k':
+                        showNotification('⚔️', 'Compétences', 'Appuyez sur K');
+                        break;
+                    case ' ':
+                        if (isTyping) {
+                            // Skip typing animation
+                            clearInterval(typewriterInterval);
+                            const dialogue = dialogueData[currentDialogueIndex];
+                            document.getElementById('dialogueText').innerHTML = dialogue.text;
+                            isTyping = false;
+                            showChoices(dialogue.choices, dialogue.reward);
+                        }
+                        break;
+                }
+            });
+        }
+
+        // ==========================================
+        // SIMULATION DE COMBAT (DÉMO)
+        // ==========================================
+        setInterval(() => {
+            // Régénération passive
+            const healthBar = document.getElementById('healthBar');
+            const manaBar = document.getElementById('manaBar');
+            const staminaBar = document.getElementById('staminaBar');
+
+            let currentHealth = parseFloat(healthBar.style.width) || 75;
+            let currentMana = parseFloat(manaBar.style.width) || 60;
+            let currentStamina = parseFloat(staminaBar.style.width) || 90;
+
+            if (currentHealth < 100) healthBar.style.width = Math.min(100, currentHealth + 0.5) + '%';
+            if (currentMana < 100) manaBar.style.width = Math.min(100, currentMana + 0.3) + '%';
+            if (currentStamina < 100) staminaBar.style.width = Math.min(100, currentStamina + 1) + '%';
+        }, 1000);
+
+        // ==========================================
+        // SYSTÈME AUDIO
+        // ==========================================
+        let audio = document.getElementById('bgMusic');
+        let isPlaying = false;
+        let isMuted = false;
+
+        // Définir le volume initial
+        audio.volume = 0.7;
+
+        // Auto-play au premier clic (pour respecter les politiques des navigateurs)
+        document.addEventListener('click', function autoPlay() {
+            if (!isPlaying) {
+                playAudio();
+            }
+        }, { once: true });
+
+        function toggleAudio() {
+            if (isPlaying) {
+                pauseAudio();
+            } else {
+                playAudio();
+            }
+        }
+
+        function playAudio() {
+            audio.play().then(() => {
+                isPlaying = true;
+                document.getElementById('playPauseIcon').className = 'bi bi-pause-fill';
+                document.getElementById('playPauseBtn').classList.add('active');
+                showNotification('🎵', 'Musique', 'Lecture en cours...');
+            }).catch(error => {
+                console.log('Erreur de lecture audio:', error);
+                showNotification('⚠️', 'Audio', 'Cliquez pour activer le son');
+            });
+        }
+
+        function pauseAudio() {
+            audio.pause();
+            isPlaying = false;
+            document.getElementById('playPauseIcon').className = 'bi bi-play-fill';
+            document.getElementById('playPauseBtn').classList.remove('active');
+            showNotification('🎵', 'Musique', 'En pause');
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            audio.muted = isMuted;
+            
+            const muteIcon = document.getElementById('muteIcon');
+            const muteBtn = document.getElementById('muteBtn');
+            
+            if (isMuted) {
+                muteIcon.className = 'bi bi-volume-mute-fill';
+                muteBtn.classList.add('active');
+                showNotification('🔇', 'Audio', 'Son coupé');
+            } else {
+                muteIcon.className = 'bi bi-volume-up-fill';
+                muteBtn.classList.remove('active');
+                showNotification('🔊', 'Audio', 'Son activé');
+            }
+        }
+
+        function changeVolume(value) {
+            audio.volume = value / 100;
+            document.getElementById('volumeLabel').textContent = value + '%';
+            
+            // Mise à jour de l'icône de volume
+            const muteIcon = document.getElementById('muteIcon');
+            if (!isMuted) {
+                if (value == 0) {
+                    muteIcon.className = 'bi bi-volume-mute-fill';
+                } else if (value < 50) {
+                    muteIcon.className = 'bi bi-volume-down-fill';
+                } else {
+                    muteIcon.className = 'bi bi-volume-up-fill';
+                }
+            }
+        }
+
+        // ==========================================
+        // MODAL RPG INFO
+        // ==========================================
+        function toggleRPGModal() {
+            const modal = document.getElementById('rpgModal');
+            modal.classList.toggle('active');
+        }
+
+        // Fermer le modal en cliquant en dehors
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('rpgModal');
+            if (event.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        // Fermer le modal avec la touche Echap
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('rpgModal');
+                if (modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
